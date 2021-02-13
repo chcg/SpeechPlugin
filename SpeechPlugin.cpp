@@ -31,7 +31,6 @@
 #include <cassert>
 
 const TCHAR PLUGIN_NAME[] = __TEXT("Speech");
-//const char sectionName[] = "Speech Extesion";
 const int nbFunc = 6;
 
 NppData nppData;
@@ -231,7 +230,7 @@ void SpeakDocument()
 
 		if ( txtLen > 0 )
 		{		
-			std::string buf(txtLen+1, 0);
+			std::string buf(txtLen++, 0);
 
 			SendMessage(editHandle, SCI_GETTEXT, buf.size(), (LPARAM)&buf[0]);
 
@@ -249,14 +248,14 @@ void SpeakSelection()
 
 	if (editHandle != NULL)
 	{
-		struct Sci_TextRange tr;
+		struct Sci_TextRange tr{};
 
-		tr.chrg.cpMin = (long)SendMessage(editHandle, SCI_GETSELECTIONSTART, 0, 0);
-		tr.chrg.cpMax = (long)SendMessage(editHandle, SCI_GETSELECTIONEND, 0, 0);
+		tr.chrg.cpMin = (Sci_PositionCR)SendMessage(editHandle, SCI_GETSELECTIONSTART, 0, 0);
+		tr.chrg.cpMax = (Sci_PositionCR)SendMessage(editHandle, SCI_GETSELECTIONEND, 0, 0);
 
 		if( tr.chrg.cpMax > 0 && (tr.chrg.cpMax > tr.chrg.cpMin))
 		{
-			std::string buf(tr.chrg.cpMax - tr.chrg.cpMin + 1, 0);
+			std::string buf((tr.chrg.cpMax - (tr.chrg.cpMin++)), 0);
 			
 			tr.lpstrText = &buf[0];
 			SendMessage(editHandle, SCI_GETTEXTRANGE, 0, (LPARAM)&tr);
