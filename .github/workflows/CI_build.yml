@@ -7,10 +7,10 @@ jobs:
 
     runs-on: windows-2016
     strategy:
-      max-parallel: 4
+      max-parallel: 6
       matrix:
         build_configuration: [Release, Debug]
-        build_platform: [x64, Win32]
+        build_platform: [x64, Win32, ARM64]
         
     steps:
     - name: Checkout repo
@@ -21,18 +21,25 @@ jobs:
 
     - name: MSBuild of plugin dll
       working-directory: .\
-      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v141_xp"
+      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v141"
 
     - name: Archive artifacts for x64
       if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-          name: plugin_dll_x64
+          name: SpeechPlugin_x64
           path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
 
     - name: Archive artifacts for Win32
       if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Release'
-      uses: actions/upload-artifact@v1
+      uses: actions/upload-artifact@v2
       with:
-          name: plugin_dll_x86
+          name: SpeechPlugin_x86
           path: ${{ matrix.build_configuration }}\SpeechPlugin.dll
+
+    - name: Archive artifacts for ARM64
+      if: matrix.build_platform == 'ARM64' && matrix.build_configuration == 'Release'
+      uses: actions/upload-artifact@v2
+      with:
+          name: SpeechPlugin_arm64
+          path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
