@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: windows-2016
+    runs-on: windows-latest
     strategy:
       max-parallel: 6
       matrix:
@@ -21,7 +21,7 @@ jobs:
 
     - name: MSBuild of plugin dll
       working-directory: .\
-      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v141"
+      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v142"
 
     - name: Archive artifacts for x64
       if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
