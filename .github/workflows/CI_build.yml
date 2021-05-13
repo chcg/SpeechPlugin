@@ -23,23 +23,13 @@ jobs:
       working-directory: .\
       run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v142"
 
-    - name: Archive artifacts for x64
-      if: matrix.build_platform == 'x64' && matrix.build_configuration == 'Release'
+    - uses: olegtarasov/get-tag@v2
+      id: tagName
+
+    - name: Archive artifacts for ${{ matrix.build_platform }}
+      if: matrix.build_configuration == 'Release'
       uses: actions/upload-artifact@v2
       with:
-          name: SpeechPlugin_x64
+          name: SpeechPlugin_${{ steps.tagName.outputs.version }}_${{ matrix.build_platform }}
           path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
 
-    - name: Archive artifacts for Win32
-      if: matrix.build_platform == 'Win32' && matrix.build_configuration == 'Release'
-      uses: actions/upload-artifact@v2
-      with:
-          name: SpeechPlugin_x86
-          path: ${{ matrix.build_configuration }}\SpeechPlugin.dll
-
-    - name: Archive artifacts for ARM64
-      if: matrix.build_platform == 'ARM64' && matrix.build_configuration == 'Release'
-      uses: actions/upload-artifact@v2
-      with:
-          name: SpeechPlugin_arm64
-          path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
