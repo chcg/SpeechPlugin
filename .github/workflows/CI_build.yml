@@ -30,6 +30,6 @@ jobs:
       if: matrix.build_configuration == 'Release'
       uses: actions/upload-artifact@v2
       with:
-          name: SpeechPlugin_${{ steps.tagName.outputs.version }}_${{ matrix.build_platform }}
+          name: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}
           path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
 
