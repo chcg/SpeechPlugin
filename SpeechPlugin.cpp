@@ -83,13 +83,10 @@ BOOL APIENTRY DllMain( HANDLE /*hModule*/,
 			funcItem[3]._pShKey = NULL;
 			funcItem[4]._pShKey = NULL;
 			funcItem[5]._pShKey = NULL;
-
-			gCanSpeek = SUCCEEDED(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED));
 		}
 		break;
 
 		case DLL_PROCESS_DETACH:
-			Cleanup();
 			break;
 
 		case DLL_THREAD_ATTACH:
@@ -105,6 +102,7 @@ BOOL APIENTRY DllMain( HANDLE /*hModule*/,
 extern "C" __declspec(dllexport) void setInfo(NppData notpadPlusData)
 {
 	nppData = notpadPlusData;
+	gCanSpeek = SUCCEEDED(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED));
 }
 
 extern "C" __declspec(dllexport) const TCHAR * getName()
@@ -123,9 +121,19 @@ HWND getCurrentHScintilla(int which)
 	return (which == 0)?nppData._scintillaMainHandle:nppData._scintillaSecondHandle;
 };
 
-extern "C" __declspec(dllexport) void beNotified(SCNotification * /*notifyCode*/)
+extern "C" __declspec(dllexport) void beNotified(SCNotification * notifyCode)
 {
-	//switch (notifyCode->nmhdr.code) { }
+	switch (notifyCode->nmhdr.code)
+	{
+	case NPPN_SHUTDOWN:
+	{
+		Cleanup();
+	}
+	break;
+
+	default:
+		return;
+	}
 }
 
 // Here you can process the Npp Messages 
