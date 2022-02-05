@@ -17,9 +17,6 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
-#ifndef _CRT_SECURE_NO_DEPRECATE
-#define _CRT_SECURE_NO_DEPRECATE
-#endif
 
 #include "PluginInterface.h"
 #include <shlobj.h>
@@ -263,7 +260,7 @@ void SpeakSelection()
 
 		if( tr.chrg.cpMax > 0 && (tr.chrg.cpMax > tr.chrg.cpMin))
 		{
-			std::string buf((tr.chrg.cpMax - (tr.chrg.cpMin++)), 0);
+			std::string buf((tr.chrg.cpMax - (tr.chrg.cpMin))+1, 0);
 			
 			tr.lpstrText = &buf[0];
 			SendMessage(editHandle, SCI_GETTEXTRANGE, 0, (LPARAM)&tr);
