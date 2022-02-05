@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: windows-2022
     strategy:
       max-parallel: 6
       matrix:
@@ -32,4 +32,10 @@ jobs:
       with:
           name: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}
           path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
+
+    - name: Create release on tagging
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+          files: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
 
