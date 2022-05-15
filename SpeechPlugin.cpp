@@ -55,17 +55,17 @@ BOOL APIENTRY DllMain( HANDLE /*hModule*/,
 		{
 			funcItem[0]._pFunc = SpeakSelection;
 			funcItem[1]._pFunc = SpeakDocument;
-			funcItem[2]._pFunc = StopSpeech;
+			funcItem[2]._pFunc = NULL;
 			funcItem[3]._pFunc = StopSpeech;
 			funcItem[4]._pFunc = PauseSpeech;
 			funcItem[5]._pFunc = ResumeSpeech;
 
-			lstrcpy(funcItem[0]._itemName, __TEXT("Speak Selection"));
-			lstrcpy(funcItem[1]._itemName, __TEXT("Speak Document"));
-			lstrcpy(funcItem[2]._itemName, __TEXT("Stop Speech"));
-			lstrcpy(funcItem[3]._itemName, __TEXT("-"));
-			lstrcpy(funcItem[4]._itemName, __TEXT("Pause Speech"));
-			lstrcpy(funcItem[5]._itemName, __TEXT("Resume Speech"));
+			lstrcpy(funcItem[0]._itemName, __TEXT("Speak &Selection"));
+			lstrcpy(funcItem[1]._itemName, __TEXT("Speak &Document"));
+			lstrcpy(funcItem[2]._itemName, __TEXT("-SEPARATOR-"));
+			lstrcpy(funcItem[3]._itemName, __TEXT("S&top Speech"));
+			lstrcpy(funcItem[4]._itemName, __TEXT("&Pause Speech"));
+			lstrcpy(funcItem[5]._itemName, __TEXT("&Resume Speech"));
 
 			funcItem[0]._init2Check = false;
 			funcItem[1]._init2Check = false;
