@@ -23,7 +23,7 @@ jobs:
       working-directory: .\
       run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v143"
 
-    - uses: olegtarasov/get-tag@v2.1
+    - uses: olegtarasov/get-tag@v2.1.2
       id: tagName
 
     - name: Archive artifacts for ${{ matrix.build_platform }}
