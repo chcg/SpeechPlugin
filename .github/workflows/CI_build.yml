@@ -5,9 +5,8 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
-      max-parallel: 6
       matrix:
         build_configuration: [Release, Debug]
         build_platform: [x64, Win32, ARM64]
@@ -21,7 +20,7 @@ jobs:
 
     - name: MSBuild of plugin dll
       working-directory: .\
-      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}" /p:PlatformToolset="v143"
+      run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
 
     - uses: olegtarasov/get-tag@v2.1.2
       id: tagName
