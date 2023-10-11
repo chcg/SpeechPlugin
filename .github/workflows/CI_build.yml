@@ -25,6 +25,10 @@ jobs:
     - uses: olegtarasov/get-tag@v2.1.2
       id: tagName
 
+    - name: zip artifacts for ${{ matrix.build_platform }}
+      if: matrix.build_configuration == 'Release'
+      run: 7z a SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
+
     - name: Archive artifacts for ${{ matrix.build_platform }}
       if: matrix.build_configuration == 'Release'
       uses: actions/upload-artifact@v3
@@ -36,5 +40,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
       with:
-          files: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}
+          files: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
 
