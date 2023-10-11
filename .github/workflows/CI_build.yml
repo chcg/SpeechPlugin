@@ -27,7 +27,7 @@ jobs:
 
     - name: zip artifacts for ${{ matrix.build_platform }}
       if: matrix.build_configuration == 'Release'
-      run: 7z a SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
+      run: 7z a SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip .\${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
 
     - name: Archive artifacts for ${{ matrix.build_platform }}
       if: matrix.build_configuration == 'Release'
