@@ -33,8 +33,8 @@ jobs:
       if: matrix.build_configuration == 'Release'
       uses: actions/upload-artifact@v3
       with:
-          name: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}
-          path: ${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
+          name: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
+          path: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
 
     - name: Create release on tagging
       uses: softprops/action-gh-release@v1
