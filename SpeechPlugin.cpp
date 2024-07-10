@@ -25,6 +25,7 @@
 #include <sapi.h>
 
 #include <string>
+#include <codecvt>
 #include <cassert>
 
 const TCHAR PLUGIN_NAME[] = __TEXT("Speech");
@@ -239,7 +240,9 @@ void SpeakDocument()
 
 			SendMessage(editHandle, SCI_GETTEXT, buf.size(), (LPARAM)&buf[0]);
 
-			std::wstring wbuf(buf.begin(), buf.end());
+			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+			std::wstring wbuf = converter.from_bytes(buf);
+
 			SpeekText(wbuf);
 		}
 	}
@@ -265,7 +268,9 @@ void SpeakSelection()
 			tr.lpstrText = &buf[0];
 			SendMessage(editHandle, SCI_GETTEXTRANGE, 0, (LPARAM)&tr);
 
-			std::wstring wbuf(buf.begin(), buf.end());
+			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+			std::wstring wbuf = converter.from_bytes(buf);
+
 			SpeekText(wbuf);
 		}
 		else
