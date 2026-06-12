@@ -27,23 +27,20 @@ jobs:
       working-directory: .\
       run: msbuild SpeechPlugin.vcxproj /m /p:configuration="${{ matrix.build_configuration }}" /p:platform="${{ matrix.build_platform }}"
 
-    - uses: olegtarasov/get-tag@v2.1.4
-      id: tagName
-
     - name: zip artifacts for ${{ matrix.build_platform }}
       if: matrix.build_configuration == 'Release'
-      run: 7z a SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip .\${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
+      run: 7z a SpeechPlugin_${{ github.ref_name }}_${{ matrix.build_platform }}.zip .\${{ matrix.build_platform }}\${{ matrix.build_configuration }}\SpeechPlugin.dll
 
     - name: Archive artifacts for ${{ matrix.build_platform }}
       if: matrix.build_configuration == 'Release'
       uses: actions/upload-artifact@v7
       with:
-          name: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
-          path: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
+          name: SpeechPlugin_${{ github.ref_name }}_${{ matrix.build_platform }}.zip
+          path: SpeechPlugin_${{ github.ref_name }}_${{ matrix.build_platform }}.zip
 
     - name: Create release on tagging
       uses: softprops/action-gh-release@v3
       if: startsWith(github.ref, 'refs/tags/')
       with:
-          files: SpeechPlugin_${{ steps.tagName.outputs.tag }}_${{ matrix.build_platform }}.zip
+          files: SpeechPlugin_${{ github.ref_name }}_${{ matrix.build_platform }}.zip
 
